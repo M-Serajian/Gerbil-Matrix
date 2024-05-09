@@ -72,7 +72,7 @@ void gerbil::KmcWriter::process() {
 						p += kMerSize_B;
 
 						// print fasta (console/file)
-						fprintf(_file, ">%u\n%s\n", counter, kmerSeq);
+						fprintf(_file, "%s,%u\n", kmerSeq,counter);
 					}
 				}
 				kb->clear();

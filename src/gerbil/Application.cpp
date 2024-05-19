@@ -72,7 +72,7 @@ unsigned long long getFreeSystemMemory()  {
 // TODO: Reorder attributes
 gerbil::Application::Application() :
 		_k(0), _m(0), _tempFilesNumber(0), _sequenceSplitterThreadsNumber(0),
-		_superSplitterThreadsNumber(0), _hasherThreadsNumber(0), _thresholdMin(0), _memSize(0),
+		_superSplitterThreadsNumber(0), _hasherThreadsNumber(0), _thresholdMin(0),_thresholdMax(0), _memSize(0),
 		_threadsNumber(0), _norm(DEF_NORM),
 		_fastFileName(""), _tempFolderName(""), _kmcFileName(""), _tempFiles(NULL),
 		_rtRun1(0.0), _rtRun2(0.0), _memoryUsage1(0), _memoryUsage2(0),
@@ -101,10 +101,10 @@ void gerbil::Application::parseParams(const int &argc, char** argv) {
 		case 'f':
 			_tempFilesNumber = atoi(argv[++i]);
 			break;
-		case 'min':
+		case 'l':
 			_thresholdMin = atoi(argv[++i]);
 			break;
-		case 'max':
+		case 'z':
 			_thresholdMax = atoi(argv[++i]);
 			break;
 		case 't':
@@ -181,11 +181,11 @@ void gerbil::Application::parseParams(const int &argc, char** argv) {
 			printf("  -f <number>           number of temporary files (default: %u)\n",
 					DEF_TEMPFILES_NUMBER);
 			printf("  -t <number>           number of threads (default: auto)\n");
-			printf("  -min <count>            minimal count of k-mers (default: %u)\n",
+			printf("  -l <count>            minimal count of k-mers (default: %u)\n",
 					DEF_THRESHOLD_MIN);
 
 			
-			printf("  -max <count>            minimal count of k-mers (default: %u)\n",
+			printf("  -z <count>            minimal count of k-mers (default: %u)\n",
 					DEF_THRESHOLD_MAX);
 
 			printf("<flag>:\n");

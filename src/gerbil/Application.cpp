@@ -101,8 +101,11 @@ void gerbil::Application::parseParams(const int &argc, char** argv) {
 		case 'f':
 			_tempFilesNumber = atoi(argv[++i]);
 			break;
-		case 'l':
+		case 'min':
 			_thresholdMin = atoi(argv[++i]);
+			break;
+		case 'max':
+			_thresholdMax = atoi(argv[++i]);
 			break;
 		case 't':
 			_threadsNumber = atoi(argv[++i]);
@@ -178,8 +181,13 @@ void gerbil::Application::parseParams(const int &argc, char** argv) {
 			printf("  -f <number>           number of temporary files (default: %u)\n",
 					DEF_TEMPFILES_NUMBER);
 			printf("  -t <number>           number of threads (default: auto)\n");
-			printf("  -l <count>            minimal count of k-mers (default: %u)\n",
+			printf("  -min <count>            minimal count of k-mers (default: %u)\n",
 					DEF_THRESHOLD_MIN);
+
+			
+			printf("  -max <count>            minimal count of k-mers (default: %u)\n",
+					DEF_THRESHOLD_MAX);
+
 			printf("<flag>:\n");
 			printf("  -h                    show help\n");
 			printf("  -v                    version\n");
@@ -343,7 +351,7 @@ void gerbil::Application::run2() {
 			_tempFiles, _tempFilesNumber, _thresholdMin, _norm, _tempFolderName,
 			maxKmcHashtableSize, kMerBundlesNumber,
 			superReader.getTempFilesOrder(), &distributor);
-	KmcWriter kmcWriter(_kmcFileName, kmerHasher.getKmcSyncSwapQueue(), _k, _outputFormat);
+	KmcWriter kmcWriter(_kmcFileName, kmerHasher.getKmcSyncSwapQueue(), _k, _outputFormat,_thresholdMax);
 
 	// start pipeline
 	superReader.process();
@@ -671,6 +679,8 @@ void gerbil::Application::autocompleteParams() {
 	
 	SET_DEFAULT(_tempFilesNumber, DEF_TEMPFILES_NUMBER);
 	SET_DEFAULT(_thresholdMin, DEF_THRESHOLD_MIN);
+	SET_DEFAULT(_thresholdMax, DEF_THRESHOLD_MAX);
+
 
 	// set size of available memory
 	if (!_memSize) {
@@ -747,7 +757,9 @@ void gerbil::Application::checkParams() {
 	CHECK_PARAM_IN_RANGE(_k, MIN_KMER_SIZE, MAX_KMER_SIZE, "size k of k-mers",
 			"k");
 	CHECK_PARAM_IN_RANGE(_thresholdMin, MIN_THRESHOLD_MIN, MAX_THRESHOLD_MIN,
-			"minimum counts l of k-mer", "l");
+			"minimum counts min of k-mer", "min");
+	CHECK_PARAM_IN_RANGE(_thresholdMax, MIN_THRESHOLD_MAX, MAX_THRESHOLD_MAX,
+			"minimum counts max of k-mer", "max");
 
 	CHECK_PARAM_IN_RANGE(_threadsNumber, MIN_THREADS_NUMBER, MAX_THREADS_NUMBER,
 			"number t of threads", "t");

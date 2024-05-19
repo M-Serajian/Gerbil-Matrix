@@ -32,6 +32,8 @@ class KmcWriter {
 	std::thread* _processThread;
 	FILE* _file;
 	uint32_t _k;
+	uint32_t _max;
+
 	TOutputFormat _outputFormat;
 
 	SyncSwapQueueMPSC<KmcBundle>* _kmcSyncSwapQueue;
@@ -39,7 +41,7 @@ class KmcWriter {
 	uint64_t _fileSize;
 public:
 	KmcWriter(std::string fileName,
-			SyncSwapQueueMPSC<KmcBundle>* kmcSyncSwapQueue, const uint32_t &k, const TOutputFormat pOutputFormat);
+			SyncSwapQueueMPSC<KmcBundle>* kmcSyncSwapQueue, const uint32_t &k, const TOutputFormat pOutputFormat,const uint32_t &max);
 	~KmcWriter();
 
 	void process();

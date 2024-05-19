@@ -51,6 +51,7 @@ private:
 	KmerCountingHashTable<K>** tables;
 #endif
 
+	uint32_t _thresholdMax;		// maximal number of occurrences to be output
 	uint32_t _thresholdMin;		// minimal number of occurrences to be output
 	uint8_t _numThreads;		// number of gpu hasher threads
 

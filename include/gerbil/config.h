@@ -114,6 +114,15 @@ namespace gerbil {
 #define MIN_THRESHOLD_MIN 1
 #define MAX_THRESHOLD_MIN (1 << 30)
 
+
+
+#define DEF_THRESHOLD_MAX (1 << 30)
+#define MIN_THRESHOLD_MAX 1
+#define MAX_THRESHOLD_MAX (1 << 30)
+
+
+
+
 #define DEF_NORM true
 #define DEF_VERBOSE IF_DEB_DEV(true)IF_REL(false)
 

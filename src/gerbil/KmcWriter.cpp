@@ -8,12 +8,14 @@
 #include "../../include/gerbil/KmcWriter.h"
 
 
-gerbil::KmcWriter::KmcWriter(std::string fileName, SyncSwapQueueMPSC<KmcBundle>* kmcSyncSwapQueue, const uint32_t &k, const TOutputFormat pOutputFormat) {
+gerbil::KmcWriter::KmcWriter(std::string fileName, SyncSwapQueueMPSC<KmcBundle>* kmcSyncSwapQueue, const uint32_t &k, const TOutputFormat pOutputFormat, const uint32_t &max) {
 	_processThread = NULL;
 	_fileName = fileName;
 	_k = k;
+	_max=max;
 	_outputFormat = pOutputFormat;
 	_kmcSyncSwapQueue = kmcSyncSwapQueue;
+	//_max=max_occurrence;
 	if(_outputFormat != of_none) {
 		std::remove(_fileName.c_str());
 		_file = fopen(_fileName.c_str(), "wb");
@@ -72,7 +74,9 @@ void gerbil::KmcWriter::process() {
 						p += kMerSize_B;
 
 						// print fasta (console/file)
-						fprintf(_file, "%s,%u\n", kmerSeq,counter);
+						if (_max >= counter){
+							fprintf(_file, "%s,%u\n", kmerSeq,counter);
+						}		
 					}
 				}
 				kb->clear();

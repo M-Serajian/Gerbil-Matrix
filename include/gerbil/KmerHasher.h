@@ -62,6 +62,8 @@ namespace gerbil {
 		const uint_tfn _tempFilesNumber;    // number of temporary files
 		TempFile *_tempFiles;                // array of temporary files
 		const uint32 _thresholdMin;        // minimal occurance of kmers to be output
+		const uint32 _thresholdMax;        // maximal occurance of kmers to be output
+
 		uint_tfn *_tempFilesOrder;            // processing order of temporary files
 		std::string _tempFolder;            // directory of temporary files ?
 		const bool _norm;                    // whether to use normalized kmers

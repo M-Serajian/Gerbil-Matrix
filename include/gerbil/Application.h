@@ -48,6 +48,8 @@ class Application {
 	std::string _tempFolderName;			// foldername of temp (with path)
 	std::string _kmcFileName;				// filename of kmc (with path)
 	uint32 _thresholdMin;					// min k-mer counter to store
+	uint32 _thresholdMax;					// max k-mer counter to store
+	
 	uint64 _memSize;						// size of ram in MB
 	uint8 _threadsNumber;					// total number of threads
 	uint8 _readerParserThreadsNumber;		// number of readers and parsers

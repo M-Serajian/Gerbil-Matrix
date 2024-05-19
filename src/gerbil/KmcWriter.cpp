@@ -50,7 +50,7 @@ void gerbil::KmcWriter::process() {
 		if(_outputFormat == of_fasta) {
 			
 			// First line of the csv
-			fprintf(_file, "K-mer ,Frequency \n");
+			fprintf(_file, "K-mer,Frequency\n");
 
 
 			uint32 counter;

@@ -48,6 +48,11 @@ void gerbil::KmcWriter::process() {
 		KmcBundle* kb = new KmcBundle;
 
 		if(_outputFormat == of_fasta) {
+			
+			// First line of the csv
+			fprintf(_file, "K-mer ,Frequency \n");
+
+
 			uint32 counter;
 			char kmerSeq[_k + 1]; kmerSeq[_k] = '\0';
 			const size_t kMerSize_B = (_k + 3) / 4;

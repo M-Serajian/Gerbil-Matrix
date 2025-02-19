@@ -46,8 +46,46 @@ void gerbil::KmcWriter::process() {
 			printf("kmcWriter start...\n");
 		)
 		KmcBundle* kb = new KmcBundle;
-
+		
 		if(_outputFormat == of_fasta) {
+			uint32 counter;
+			char kmerSeq[_k + 1]; kmerSeq[_k] = '\0';
+			const size_t kMerSize_B = (_k + 3) / 4;
+			const char c[4] = {'A', 'C', 'G', 'T'};
+
+			IF_MESS_KMCWRITER(sw.hold();)
+			while(_kmcSyncSwapQueue->swapPop(kb)) {
+				IF_MESS_KMCWRITER(sw.proceed();)
+				if(!kb->isEmpty()) {
+					const byte* p = kb->getData();
+					const byte* end = p + kb->getSize();
+					while(p < end) {
+						counter = (uint32)*(p++);
+						if(counter >= 255) {
+							// large value
+							counter = *((uint32*)p);
+							p += 4;
+						}
+						// k-mer: convert bytes to string
+						for(uint i = 0; i < _k; ++i)
+							kmerSeq[i] = c[(p[i >> 2] >> (2 * (3 - (i & 0x3)))) & 0x3];
+
+						// increase pointer
+						p += kMerSize_B;
+
+						// print fasta (console/file)
+						fprintf(_file, ">%u\n%s\n", counter, kmerSeq);
+					}
+				}
+				kb->clear();
+				IF_MESS_KMCWRITER(sw.hold();)
+			}
+			_fileSize = ftell(_file);
+		}
+
+
+
+		if(_outputFormat == of_csv) {
 			
 			// First line of the csv
 			fprintf(_file, "K-mer,Frequency\n");

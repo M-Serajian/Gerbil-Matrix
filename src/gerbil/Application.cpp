@@ -134,6 +134,8 @@ void gerbil::Application::parseParams(const int &argc, char** argv) {
 			std::string s(argv[++i]);
 			if (s == "fasta")
 				_outputFormat = of_fasta;
+			else if (s == "csv")  // Add CSV option
+        		_outputFormat = of_csv;
 			else if (s == "none")
 				_outputFormat = of_none;
 			else
